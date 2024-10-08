@@ -34,9 +34,9 @@ public class BookStoreWindow {
     }
 
     public Book oldestBook() {
-        Book oldest = new Book("0", "", 0, 0.0);
+        Book oldest = new Book("", "", 9999, 0.0);
         for (Book book : books) {
-            if (book.getValue() < oldest.getValue()) {
+            if (book.getYear() < oldest.getYear()) {
                 oldest = book;
             }
         }
