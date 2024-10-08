@@ -1,14 +1,14 @@
 package csc8011;
 
+import java.util.ArrayList;
+
 public class BookStoreWindow {
     private String name;
-    private Book[] books = new Book[10000];
-    private final int number;
+    private ArrayList<Book> books;
 
-    public BookStoreWindow(String name, Book[] books, int number) {
+    public BookStoreWindow(String name, ArrayList<Book> books) {
         this.name = name;
         this.books = books;
-        this.number = 0;
     }
 
     public String getName() {
@@ -19,32 +19,38 @@ public class BookStoreWindow {
         this.name = name;
     }
 
-    public Book[] maxValue() {
-        Book max = new Book("0", "", 0, 0.0);
-        for (int i = 0; i < number; i++) {
-            if (books[i].getValue() > max.getValue()) {
-                max = books[i];
-            }
-        }
-        return new Book[]{max};
+    public void setBooks(ArrayList<Book> books) {
+        this.books=books;
     }
 
-    public Book[] oldestBook() {
-        Book oldest = new Book("0", "", 0, 0.0);
-        for (int i = 0; i < number; i++) {
-            if (books[i].getYear() < oldest.getYear()) {
-                oldest = books[i];
+    public Book maxValue() {
+        Book max = new Book("0", "", 0, 0.0);
+        for (Book book : books) {
+            if (book.getValue() > max.getValue()) {
+                max = book;
             }
         }
-        return new Book[]{oldest};
+        return max;
+    }
+
+    public Book oldestBook() {
+        Book oldest = new Book("0", "", 0, 0.0);
+        for (Book book : books) {
+            if (book.getValue() < oldest.getValue()) {
+                oldest = book;
+            }
+        }
+        return oldest;
     }
 
 
     public double averageValue() {
         double average = 0;
-        for (int i = 0; i < number; i++) {
-            average += books[i].getValue();
+        int count=0;
+        for (Book book : books) {
+            average += book.getValue();
+            count++;
         }
-        return average / number;
+        return average / count;
     }
 }
