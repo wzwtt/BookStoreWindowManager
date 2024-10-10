@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BookStoreWindow {
     private String name;
-    private ArrayList<Book> books;
+    private final ArrayList<Book> books;
 
     public BookStoreWindow(String name, ArrayList<Book> books) {
         this.name = name;
@@ -19,8 +19,16 @@ public class BookStoreWindow {
         this.name = name;
     }
 
-    public void setBooks(ArrayList<Book> books) {
-        this.books=books;
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public int getAmountOfBooks() {
+        return books.size();
+    }
+
+    public Book getBook(int index) {
+        return books.get(index);
     }
 
     public Book maxValue() {
@@ -46,7 +54,7 @@ public class BookStoreWindow {
 
     public double averageValue() {
         double average = 0;
-        int count=0;
+        int count = 0;
         for (Book book : books) {
             average += book.getValue();
             count++;

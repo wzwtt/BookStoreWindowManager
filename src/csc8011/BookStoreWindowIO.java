@@ -5,9 +5,8 @@ import java.io.*;
 
 public class BookStoreWindowIO {
 
-    static BookStoreWindow store = new BookStoreWindow("",new ArrayList<>());
+    static BookStoreWindow store = new BookStoreWindow("", new ArrayList<>());
     static Scanner in = new Scanner(System.in);
-    static ArrayList<Book> books = new ArrayList<>();
 
     public static String showOptions() {
         String choice = "";
@@ -35,6 +34,7 @@ public class BookStoreWindowIO {
         boolean done1 = false, done2 = false;
         do {
             choice = showOptions();
+            outerswitch:
             switch (choice) {
                 case "1":
                     System.out.println("Enter the name of the book store: ");
@@ -48,27 +48,33 @@ public class BookStoreWindowIO {
                     Scanner ReadFile = new Scanner(file);
                     while (ReadFile.hasNextLine()) {
                         String data = ReadFile.nextLine();
-                        String[] datas = data.split(",");
-                        books.add(new Book(datas[0], datas[1], Integer.parseInt(datas[2]), Double.parseDouble(datas[3])));
+                        String[] Cdata = data.split(",");
+                        try {
+                            store.addBook(new Book(Cdata[0], Cdata[1], Integer.parseInt(Cdata[2]), Double.parseDouble(Cdata[3])));
+                        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                            System.out.println("Invalid data. Try again.");
+                            System.out.println();
+                            ReadFile.close();
+                            break outerswitch;
+                        }
                     }
                     ReadFile.close();
-                    store.setBooks(books);
                     System.out.println("Done.");
                     done2 = true;
                     break;
                 case "3":
-                    if (!(done1&&done2)) {
+                    if (!(done1 && done2)) {
                         System.out.println();
                         System.out.println("You must finish option 1 and option 2 first.");
                         break;
                     }
                     System.out.println("Book shop name: " + store.getName());
-                    for (Book book : books) {
-                        System.out.println("Book Id: " + book.getID() + ", Title: " + book.getTitle() + ", Year published: " + book.getYear() + ", Value: £" + String.format("%.2f", book.getValue()));
+                    for (int i = 0; i < store.getAmountOfBooks(); i++) {
+                        System.out.println("Book Id: " + store.getBook(i).getID() + ", Title: " + store.getBook(i).getTitle() + ", Year published: " + store.getBook(i).getYear() + ", Value: £" + String.format("%.2f", store.getBook(i).getValue()));
                     }
                     break;
                 case "4":
-                    if (!(done1&&done2)) {
+                    if (!(done1 && done2)) {
                         System.out.println();
                         System.out.println("You must finish option 1 and option 2 first.");
                         break;
